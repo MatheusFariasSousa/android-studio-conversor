@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -23,6 +24,14 @@ class MainActivity : AppCompatActivity() {
         val botao=findViewById<Button>(R.id.botao)
         val resposta=findViewById<TextView>(R.id.resposta)
         val dia=findViewById<TextView>(R.id.dia)
+        val alunos=findViewById<Button>(R.id.alunos)
+
+        fun isNumericToX(toCheck: String): Boolean {
+            return toCheck.toDoubleOrNull() != null
+        }
+
+
+
         fun conversor(valor: Double): Array<String> {
             val horas1=((valor/60)/60)
             val minutos0=valor%(24*3600)
@@ -37,21 +46,35 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+        fun pg2 (){
+            val tela2= Intent(this,MainActivity2::class.java)
+            startActivity(tela2)
+        }
+
 
 
         botao.setOnClickListener {
-            val valor=findViewById<EditText>(R.id.valor).text.toString().toDouble()
-            val resultado=conversor(valor)
-            val final = "${resultado[0]}:${resultado[1]}:${resultado[2]}"
-            val local="hora:minuto:segundo"
+            val numb=findViewById<EditText>(R.id.valor).text.toString()
+            val teste= isNumericToX(numb)
+            if (teste==true){
+                val valor=numb.toDouble()
+                val resultado=conversor(valor)
+                val final = "${resultado[0]}:${resultado[1]}:${resultado[2]}"
+                val local="hora:minuto:segundo"
+
+                resposta.text=local
+                dia.text=final
+            }
+            else{
+                resposta.text="Insira um valor válido!"
+
+            }
 
 
+        }
 
-
-
-            resposta.text=local
-            dia.text=final
-
+        alunos.setOnClickListener {
+            pg2()
         }
 
 
